@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Gerador de Senhas Do yuji</title>
+  <style>
+    body {
+    background-color: #007bff;
+    font-family: Arial, sans-serif;
+    background: #f1f1f1;
+    display: flex;
+  justify-content: center;
+  align-items: center;
+   height: 100vh;
+    }
+    .container {
+      background: rgb(255, 255, 255);
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      width: 300px;
+      text-align: center;
+    }
+    input[type=range] {
+      width: 100%;
+    }
+    .senha {
+      font-weight: bold;
+      font-size: 1.2em;
+      margin: 15px 0;
+      word-break: break-all;
+    }
+    button {
+      background: #007bff;
+      color: rgb(255, 255, 255);
+      border: none;
+      padding: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 10px;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Site do yuji</h1>
+    <h2>Gerador de Senhas</h2>
+    
+    <label for="length">Comprimento: <span id="lengthValue">12</span></label>
+    <input type="range" id="length" min="6" max="32" value="12" oninput="updateLengthValue()">
+
+    <div>
+      <label><input type="checkbox" id="includeUpper" checked> Letras maiúsculas</label><br>
+      <label><input type="checkbox" id="includeLower" checked> Letras minúsculas</label><br>
+      <label><input type="checkbox" id="includeNumbers" checked> Números</label><br>
+      <label><input type="checkbox" id="includeSymbols" checked> Símbolos</label>
+    </div>
+
+    <div class="senha" id="password">Clique em "Gerar"</div>
+
+    <button onclick="generatePassword()">Gerar Senha</button>
+  </div>
+
+  <script>
+    function updateLengthValue() {
+      document.getElementById('lengthValue').textContent = document.getElementById('length').value;
+    }
+
+    function generatePassword() {
+      const length = parseInt(document.getElementById('length').value);
+      const includeUpper = document.getElementById('includeUpper').checked;
+      const includeLower = document.getElementById('includeLower').checked;
+      const includeNumbers = document.getElementById('includeNumbers').checked;
+      const includeSymbols = document.getElementById('includeSymbols').checked;
+
+      const upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+      const lower = "abcdefghijklmnopqrstuvwxyz";
+      const numbers = "0123456789";
+      const symbols = "!@#$%^&*()_+-=[]{}|;:,.<>?/";
+
+      let allChars = "";
+      if (includeUpper) allChars += upper;
+      if (includeLower) allChars += lower;
+      if (includeNumbers) allChars += numbers;
+      if (includeSymbols) allChars += symbols;
+
+      if (allChars.length === 0) {
+        document.getElementById('password').textContent = "Selecione ao menos uma opção.";
+        return;
+      }
+
+      let password = "";
+      for (let i = 0; i < length; i++) {
+        password += allChars[Math.floor(Math.random() * allChars.length)];
+      }
+
+      document.getElementById('password').textContent = password;
+    }
+  </script>
+</body>
+</html>
